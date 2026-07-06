@@ -25,19 +25,19 @@ return {
       require("bufferline").setup(opts) -- Uses opts from Lazy.nvim
 
       local keymap = vim.keymap.set
-	  opts = { noremap = true, silent = true }
+      local o = { noremap = true, silent = true }
 
-      keymap("n", "<leader>b", "<nop>", { desc = "Buffer" })
-      keymap("n", "<leader>bj", "<cmd>BufferLinePick<cr>", { desc = "Jump to buffer", unpack(opts) })
-      keymap("n", "<leader>bf", "<cmd>Telescope buffers previewer=false<cr>", { desc = "Find buffer", unpack(opts) })
-      keymap("n", "<leader>bb", "<cmd>BufferLineCyclePrev<cr>", { desc = "Previous buffer", unpack(opts) })
-      keymap("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>", { desc = "Next buffer", unpack(opts) })
-      keymap("n", "<leader>BW", "<cmd>noautocmd w<cr>", { desc = "Save without formatting", unpack(opts) })
-      keymap("n", "<leader>be", "<cmd>BufferLinePickClose<cr>", { desc = "Close picked buffer", unpack(opts) })
-      keymap("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>", { desc = "Close buffers to the left", unpack(opts) })
-      keymap("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>", { desc = "Close buffers to the right", unpack(opts) })
-      keymap("n", "<leader>bD", "<cmd>BufferLineSortByDirectory<cr>", { desc = "Sort buffers by directory", unpack(opts) })
-      keymap("n", "<leader>bL", "<cmd>BufferLineSortByExtension<cr>", { desc = "Sort buffers by file type", unpack(opts) })
+      keymap("n", "<leader>b",  "<nop>",                                        vim.tbl_extend("force", o, { desc = "Buffer" }))
+      keymap("n", "<leader>bj", "<cmd>BufferLinePick<cr>",                      vim.tbl_extend("force", o, { desc = "Jump to buffer" }))
+      keymap("n", "<leader>bf", "<cmd>Telescope buffers previewer=false<cr>",   vim.tbl_extend("force", o, { desc = "Find buffer" }))
+      keymap("n", "<leader>bb", "<cmd>BufferLineCyclePrev<cr>",                 vim.tbl_extend("force", o, { desc = "Previous buffer" }))
+      keymap("n", "<leader>bn", "<cmd>BufferLineCycleNext<cr>",                 vim.tbl_extend("force", o, { desc = "Next buffer" }))
+      keymap("n", "<leader>BW", "<cmd>noautocmd w<cr>",                         vim.tbl_extend("force", o, { desc = "Save without formatting" }))
+      keymap("n", "<leader>be", "<cmd>BufferLinePickClose<cr>",                 vim.tbl_extend("force", o, { desc = "Close picked buffer" }))
+      keymap("n", "<leader>bh", "<cmd>BufferLineCloseLeft<cr>",                 vim.tbl_extend("force", o, { desc = "Close buffers to the left" }))
+      keymap("n", "<leader>bl", "<cmd>BufferLineCloseRight<cr>",                vim.tbl_extend("force", o, { desc = "Close buffers to the right" }))
+      keymap("n", "<leader>bD", "<cmd>BufferLineSortByDirectory<cr>",           vim.tbl_extend("force", o, { desc = "Sort buffers by directory" }))
+      keymap("n", "<leader>bL", "<cmd>BufferLineSortByExtension<cr>",           vim.tbl_extend("force", o, { desc = "Sort buffers by file type" }))
     end,
 }
 

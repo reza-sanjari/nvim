@@ -5,11 +5,6 @@ return {
 		icons = {
 			mappings = false,
 		},
-		defaults = {
-			["<leader>e"] = { name = "+test" },
-		},
-		-- your configuration comes here
-		-- or leave it empty to use the default settings
 	},
 	keys = {
 		{
@@ -19,8 +14,7 @@ return {
 			end,
 			desc = "Buffer Local Keymaps (which-key)",
 		},
-		mode = { "n", "v" }, -- NORMAL and VISUAL mode
-		{ "<leader>q", "<cmd>q<cr>", desc = "Quit" }, -- no need to specify mode since it's inherited
+		{ "<leader>q", "<cmd>q<cr>", desc = "Quit" },
 		{ "<leader>w", "<cmd>w<cr>", desc = "Write" },
 	},
 }

@@ -3,7 +3,7 @@ return {
     config = function()
 		  vim.cmd[[colorscheme tokyonight]]
         require('tokyonight').setup({
-            disable_background = true
+            transparent = true
         })
     end
 }

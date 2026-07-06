@@ -50,10 +50,10 @@ return {
 			keymap.set("n", "<leader>dd", vim.diagnostic.open_float, opts)
 
 			opts.desc = "Go to previous diagnostic"
-			keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
+			keymap.set("n", "[d", function() vim.diagnostic.jump({ count = -1 }) end, opts)
 
 			opts.desc = "Go to next diagnostic"
-			keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+			keymap.set("n", "]d", function() vim.diagnostic.jump({ count = 1 }) end, opts)
 
 			opts.desc = "Show documentation for what is under cursor"
 			keymap.set("n", "K", vim.lsp.buf.hover, opts)
@@ -69,13 +69,16 @@ return {
 		-- used to enable autocompletion (assign to every lsp server config)
 		local capabilities = cmp_nvim_lsp.default_capabilities()
 
-		-- Change the Diagnostic symbols in the sign column (gutter)
-		-- local signs = { Error = " ", Warn = " ", Hint = "󰠠 ", Info = " " }
-		local signs = { Error = "E", Warn = "W", Hint = "H", Info = "I" }
-		for type, icon in pairs(signs) do
-			local hl = "DiagnosticSign" .. type
-			vim.fn.sign_define(hl, { text = icon, texthl = hl, numhl = "" })
-		end
+		vim.diagnostic.config({
+			signs = {
+				text = {
+					[vim.diagnostic.severity.ERROR] = "E",
+					[vim.diagnostic.severity.WARN]  = "W",
+					[vim.diagnostic.severity.HINT]  = "H",
+					[vim.diagnostic.severity.INFO]  = "I",
+				},
+			},
+		})
 
 		lspconfig["clangd"].setup({
 			capabilities = capabilities,
@@ -150,14 +153,8 @@ return {
 						version = "LuaJIT",
 					},
 					workspace = {
-						-- make language server aware of runtime files
-						library = {
-							-- Make the server aware of Neovim runtime files
-							-- [vim.fn.expand("$VIMRUNTIME/lua")] = true,
-							-- [vim.fn.stdpath("config") .. "/lua"] = true,
-							library = vim.api.nvim_get_runtime_file("", true),
-							checkThirdParty = false,
-						},
+						library = vim.api.nvim_get_runtime_file("", true),
+						checkThirdParty = false,
 					},
 					telemetry = {
 						enable = false,

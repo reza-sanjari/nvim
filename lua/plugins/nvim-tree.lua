@@ -13,10 +13,15 @@ return {
         open_file = {
           resize_window = true,
           window_picker = {
-            enable = false, -- Ensures files open in the correct tab instead of a split
+            enable = false,
           },
         },
       },
+      on_attach = function(bufnr)
+        local api = require("nvim-tree.api")
+        api.config.mappings.default_on_attach(bufnr)
+        vim.keymap.set("n", "<CR>", api.node.open.tab, { buffer = bufnr, noremap = true, silent = true, desc = "Open in new tab" })
+      end,
     })
 
     -- Automatically close NvimTree when a file is opened
@@ -33,8 +38,6 @@ return {
     local keymap = vim.keymap -- for conciseness
     keymap.set("n", "<leader>e", "<cmd>NvimTreeToggle<CR>", { desc = "Explorer" }) -- Toggle file explorer
 
-    -- Open files in a new tab when selected from NvimTree
-    keymap.set("n", "<CR>", ":lua require('nvim-tree').on_keypress('edit')<CR>:tabedit %<CR>", { noremap = true, silent = true })
   end,
 }
 
