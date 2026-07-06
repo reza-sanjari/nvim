@@ -26,21 +26,17 @@ return {
         })
 
         mason_lspconfig.setup({
-            -- list of LSPs for mason to install
             ensure_installed = {
-                "lua_ls", -- lua
+                "lua_ls",
                 "pyright",
-                "pylsp", -- python LSP with jedi
+                "pylsp",
             },
-            -- auto-install configured servers (with lspconfig)
-            automatic_installation = true, -- not the same as ensure_installed
         })
 
         mason_tool_installer.setup({
             ensure_installed = {
                 "stylua", -- lua formatter
-                "ruff", -- python linter+formatter
-                "ruff-lsp", -- ruff interface
+                "ruff", -- python linter+formatter+lsp
                 "mypy", -- python static type checker
                 "debugpy", -- python debugger
                 -- "isort", -- python formatter

@@ -1,8 +1,19 @@
 #!/bin/bash
 set -e
 
-echo "[nvim] Removing config symlink..."
-rm -f "$HOME/.config/nvim"
+REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+
+echo "[nvim] Removing config..."
+if [ -L "$HOME/.config/nvim" ]; then
+    rm "$HOME/.config/nvim"
+elif [ -d "$HOME/.config/nvim" ]; then
+    # Only remove if it's not the repo itself
+    if [ "$(realpath "$HOME/.config/nvim")" != "$REPO_DIR" ]; then
+        rm -rf "$HOME/.config/nvim"
+    else
+        echo "[nvim] $HOME/.config/nvim is the repo — skipping"
+    fi
+fi
 
 echo "[nvim] Removing plugin data..."
 rm -rf "$HOME/.local/share/nvim"
