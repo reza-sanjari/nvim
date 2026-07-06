@@ -1,4 +1,50 @@
 #!/bin/bash
+set -e
 
-mkdir -p $HOME/.config/
-ln -s $HOME/workspace/vim_repos/personal/nvim/ $HOME/.config/nvim
+REPO_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" && pwd )"
+CONFIG_DIR="$HOME/.config/nvim"
+
+echo "[nvim] Source: $REPO_DIR"
+
+# 1. Symlink config
+mkdir -p "$HOME/.config"
+if [ -e "$CONFIG_DIR" ]; then
+    echo "[nvim] $CONFIG_DIR already exists — skipping symlink"
+else
+    ln -s "$REPO_DIR" "$CONFIG_DIR"
+    echo "[nvim] Symlinked -> $CONFIG_DIR"
+fi
+
+# 2. Install system dependencies
+echo "[nvim] Installing system dependencies..."
+if command -v apt-get &>/dev/null; then
+    sudo apt-get install -y ripgrep fd-find make gcc xclip nodejs npm unzip curl
+elif command -v dnf &>/dev/null; then
+    sudo dnf install -y ripgrep fd-find make gcc xclip nodejs npm unzip curl
+elif command -v pacman &>/dev/null; then
+    sudo pacman -S --noconfirm ripgrep fd make gcc xclip nodejs npm unzip curl
+else
+    echo "[warn] Unknown package manager — install manually: ripgrep, fd, make, gcc, xclip, nodejs, unzip, curl"
+fi
+
+# 3. WSL2: install win32yank for Windows clipboard passthrough
+if grep -qi microsoft /proc/version 2>/dev/null; then
+    if ! command -v win32yank.exe &>/dev/null; then
+        echo "[nvim] WSL2 detected — installing win32yank..."
+        curl -sLo /tmp/win32yank.zip \
+            https://github.com/equalsraf/win32yank/releases/latest/download/win32yank-x64.zip
+        unzip -p /tmp/win32yank.zip win32yank.exe > /tmp/win32yank.exe
+        chmod +x /tmp/win32yank.exe
+        sudo mv /tmp/win32yank.exe /usr/local/bin/win32yank.exe
+        echo "[nvim] win32yank installed"
+    else
+        echo "[nvim] win32yank already available"
+    fi
+fi
+
+# 4. Headless plugin install
+echo "[nvim] Installing plugins (headless — this may take a minute)..."
+nvim --headless "+Lazy! sync" +qa
+
+echo ""
+echo "[nvim] Done. Run: nvim"

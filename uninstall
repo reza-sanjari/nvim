@@ -1,0 +1,22 @@
+#!/bin/bash
+set -e
+
+echo "[nvim] Removing config symlink..."
+rm -f "$HOME/.config/nvim"
+
+echo "[nvim] Removing plugin data..."
+rm -rf "$HOME/.local/share/nvim"
+
+echo "[nvim] Removing cache..."
+rm -rf "$HOME/.cache/nvim"
+
+echo "[nvim] Removing state..."
+rm -rf "$HOME/.local/state/nvim"
+
+if [ -f /usr/local/bin/win32yank.exe ]; then
+    echo "[nvim] Removing win32yank..."
+    sudo rm /usr/local/bin/win32yank.exe
+fi
+
+echo ""
+echo "[nvim] Done. Delete the repo folder to finish."
