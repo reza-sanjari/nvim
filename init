@@ -18,13 +18,20 @@ fi
 # 2. Install system dependencies
 echo "[nvim] Installing system dependencies..."
 if command -v apt-get &>/dev/null; then
-    sudo apt-get install -y ripgrep fd-find make gcc xclip nodejs npm unzip curl
+    sudo apt-get install -y ripgrep fd-find make gcc xclip unzip curl
+    # Install current Node.js LTS via NodeSource (apt ships an old version)
+    node_major=$(node --version 2>/dev/null | sed 's/v\([0-9]*\).*/\1/')
+    if ! command -v node &>/dev/null || [ "${node_major:-0}" -lt 18 ]; then
+        echo "[nvim] Installing Node.js LTS from NodeSource..."
+        curl -fsSL https://deb.nodesource.com/setup_lts.x | sudo -E bash -
+        sudo apt-get install -y nodejs
+    fi
 elif command -v dnf &>/dev/null; then
     sudo dnf install -y ripgrep fd-find make gcc xclip nodejs npm unzip curl
 elif command -v pacman &>/dev/null; then
     sudo pacman -S --noconfirm ripgrep fd make gcc xclip nodejs npm unzip curl
 else
-    echo "[warn] Unknown package manager — install manually: ripgrep, fd, make, gcc, xclip, nodejs, unzip, curl"
+    echo "[warn] Unknown package manager — install manually: ripgrep, fd, make, gcc, xclip, nodejs (>=18), unzip, curl"
 fi
 
 # 3. WSL2: install win32yank for Windows clipboard passthrough
