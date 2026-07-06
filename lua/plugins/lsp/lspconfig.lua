@@ -167,10 +167,45 @@ return {
 		})
 
 		lspconfig.rust_analyzer.setup({
-			-- Server-specific settings. See `:help lspconfig-setup`
 			settings = {
 				["rust-analyzer"] = {},
 			},
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- go
+		lspconfig["gopls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- javascript / typescript
+		lspconfig["ts_ls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- html
+		lspconfig["html"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- css
+		lspconfig["cssls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- java
+		lspconfig["jdtls"].setup({
+			capabilities = capabilities,
+			on_attach = on_attach,
+		})
+
+		-- c#
+		lspconfig["omnisharp"].setup({
 			capabilities = capabilities,
 			on_attach = on_attach,
 		})

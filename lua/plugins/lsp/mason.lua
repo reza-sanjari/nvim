@@ -27,21 +27,37 @@ return {
 
         mason_lspconfig.setup({
             ensure_installed = {
-                "lua_ls",
-                "pyright",
-                "pylsp",
+                "lua_ls",       -- lua
+                "pyright",      -- python
+                "pylsp",        -- python (jedi + ruff + mypy)
+                "gopls",        -- go
+                "ts_ls",        -- javascript / typescript
+                "html",         -- html
+                "cssls",        -- css
+                "jdtls",        -- java
+                "omnisharp",    -- c#
             },
+            automatic_enable = false,
         })
 
         mason_tool_installer.setup({
             ensure_installed = {
-                "stylua", -- lua formatter
-                "ruff", -- python linter+formatter+lsp
-                "mypy", -- python static type checker
-                "debugpy", -- python debugger
-                -- "isort", -- python formatter
-                -- "black", -- python formatter
-                -- "pylint", -- python linter
+                -- lua
+                "stylua",
+                -- python
+                "ruff",
+                "mypy",
+                "debugpy",
+                -- go
+                "gopls",
+                "gofumpt",
+                "goimports",
+                "golangci-lint",
+                -- javascript / html
+                "prettier",
+                "eslint_d",
+                -- c#
+                "csharpier",
             },
         })
     end,
