@@ -42,9 +42,4 @@ if grep -qi microsoft /proc/version 2>/dev/null; then
     fi
 fi
 
-# 4. Headless plugin install
-echo "[nvim] Installing plugins (headless — this may take a minute)..."
-nvim --headless "+Lazy! sync" +qa
-
-echo ""
-echo "[nvim] Done. Run: nvim"
+echo "[nvim] Done. Run: nvim  (plugins will install on first launch)"
